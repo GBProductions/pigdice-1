@@ -1,79 +1,102 @@
 //Business Logic Stuff
-function Gamer(playerName) {
-  this.playerName = playerName;
+function Gamer(name) {
+  this.name = name;
+  this.tempScore = 0;
   this.score = 0;
 }
 
-
-function playerOne() {
-  let score = 0;
-  let dice = diceRoll();
-    if (dice === 1) {
-      return score = 0;
-    } else {
-      score = playerScoreOne(dice, oldScoreOne);
-      return score = newScoreOne;
-    }
-};
-
-function playerTwo() {
-  let score = 0;
-  let dice = diceRoll();
-  if (dice === 1) {
-    return score = 0;
-  } else {
-    score = playerScoreTwo(dice, tempScoreTwo);
-    return score = tempScoreTwo;
-  }
-};
-
-function playerScoreOne(dice, oldScoreOne) {
-  newScoreOne = oldScoreOne + dice;
-  return newScoreOne;
-};
-
-function playerScoreTwo(dice, tempScoreTwo) {
-  tempScoreTwo = tempScoreTwo + dice;
-  return tempScoreTwo;
-};
-
-function checkScoreOne(score) {
-  if (score >= 100) {
-    console.log("winner");
-    $("#formOne").hide();
+Gamer.prototype.checkScore = function(score) {
+  if (this.score >= 100) {
     $("#gamePlayOne").hide();
     $("#gamePlayTwo").hide();
-    $("#scoreDislay").hide();
-    $("#winnerTwo").hide();
-    $("#winnerOne").show();
+    $("#playOneWin").show();
   } else {
-    return score;
+    Gamer.prototype.tempScore(score);
   }
-};
+}
 
-function checkScoreTwo(score) {
-  if (score >= 100) {
-    console.log("winner");
-    $("#formOne").hide();
-    $("#gamePlayOne").hide();
-    $("#gamePlayTwo").hide();
-    $("#scoreDislay").hide();
-    $("#winnerTwo").show();
-    $("#winnerOne").hide();
-  } else {
-    return score;
-  }
-};
+Gamer.prototype.tempScore = function(dice) {
+  this.tempScore = this.tempScore + dice;
+  return this.tempScore
+}
+
+Gamer.prototype.score = function(scored) {
+  this.score = this.score + this.tempScore;
+}
+
+function diceRoll() {
+  return Math.floor(Math.random() * 6) + 1;
+}
+
+// function playerOne() {
+//   let score = 0;
+//   let dice = diceRoll();
+//     if (dice === 1) {
+//       return score = 0;
+//     } else {
+//       score = playerScoreOne(dice, oldScoreOne);
+//       return score = newScoreOne;
+//     }
+// };
+
+// function playerTwo() {
+//   let score = 0;
+//   let dice = diceRoll();
+//   if (dice === 1) {
+//     return score = 0;
+//   } else {
+//     score = playerScoreTwo(dice, tempScoreTwo);
+//     return score = tempScoreTwo;
+//   }
+// };
+
+// function playerScoreOne(dice, oldScoreOne) {
+//   newScoreOne = oldScoreOne + dice;
+//   return newScoreOne;
+// };
+
+// function playerScoreTwo(dice, tempScoreTwo) {
+//   tempScoreTwo = tempScoreTwo + dice;
+//   return tempScoreTwo;
+// };
+
+// function checkScoreOne(score) {
+//   if (score >= 100) {
+//     console.log("winner");
+//     $("#formOne").hide();
+//     $("#gamePlayOne").hide();
+//     $("#gamePlayTwo").hide();
+//     $("#scoreDislay").hide();
+//     $("#winnerTwo").hide();
+//     $("#winnerOne").show();
+//   } else {
+//     return score;
+//   }
+// };
+
+// function checkScoreTwo(score) {
+//   if (score >= 100) {
+//     console.log("winner");
+//     $("#formOne").hide();
+//     $("#gamePlayOne").hide();
+//     $("#gamePlayTwo").hide();
+//     $("#scoreDislay").hide();
+//     $("#winnerTwo").show();
+//     $("#winnerOne").hide();
+//   } else {
+//     return score;
+//   }
+// };
 
 
 // UI Logic Stuff
 //Starting Scores:
-let playerOneScore = 0;
-let playerTwoScore = 0;
-let oldScoreOne = 0;
-let tempScoreTwo = 0;
+// let playerOneScore = 0;
+// let playerTwoScore = 0;
+// let oldScoreOne = 0;
+// let tempScoreTwo = 0;
 
-let pigDiceGamer = new Gamer();
+// let pigDiceGamer = new Gamer();
 
 $(document).ready(function() {
   $("form#formOne").submit(function(event) {
@@ -85,15 +108,26 @@ $(document).ready(function() {
     $("#formOne").hide();
     $("#gamePlayOne").show();
     $("#scoreDisplay").show(); 
-
-    let newGamer = new Gamer(playerOneName)
   });
+
+
 
   $("#rollDiceOne").click(function(event) {
     event.preventDefault();
-    let score = playerOne();
-    checkScoreOne(score);
+    let playerOne = new Gamer("Collin");
+    let playerTwo = new Gamer("Juan");
+    let rolled = diceRoll();
+    let scored = playerOne.score;
+    if (rolled === 1) {
+      playerOne.tempScore = 0;
+      playerOne.prototype.score(0);
+    } else {
+      //playerOne.tempScore += rolled
+      // playerOne.tempScore(rolled);
+      playerOne.checkScore(rolled);
+    }
   });
+ 
 
   $("#rollDiceTwo").click(function(event) {
     event.preventDefault();
